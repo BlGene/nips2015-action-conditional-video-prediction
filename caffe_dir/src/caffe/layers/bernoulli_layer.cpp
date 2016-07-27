@@ -30,10 +30,6 @@ void BernoulliLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
   }
 }
 
-#ifdef CPU_ONLY
-STUB_GPU(BernoulliLayer);
-#endif
-
 INSTANTIATE_CLASS(BernoulliLayer);
 REGISTER_LAYER_CLASS(Bernoulli);
 

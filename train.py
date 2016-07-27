@@ -56,6 +56,29 @@ def main(model, lr, prefix, weights, snapshot, mean, batch_size,
   solver_proto = create_solver_proto(train_net_file, test_net_file,
       lr, prefix, max_iter=num_iter, debug_info=debug_info)
   solver = create_solver(solver_proto, file_name=solver_file_name) 
+
+
+  #debugging
+  from pdb import set_trace
+  net = caffe.Net(train_net_file, caffe.TEST)
+  net.forward()
+  import matplotlib.pyplot as plt
+
+  #minibatch
+  num_frames = 5
+  batch_size = net.blobs["data"].shape[0]
+  for mb in range(batch_size):
+      fix, axes = plt.subplots(1,num_frames)
+      bd = net.blobs["data"].data[mb]
+
+      for i in range(num_frames):
+          axes[i].imshow(bd[i].transpose(1,2,0))
+      plt.show()
+      break
+
+  set_trace()
+
+
   if snapshot:
     solver.restore(snapshot)
   elif weights:
